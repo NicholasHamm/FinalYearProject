@@ -2,8 +2,8 @@
 
 # Data Center Dashboard
 
-## Student Name: Nicholas Hamm
-## Student Number: 19439854
+### Student Name: Nicholas Hamm
+### Student Number: 19439854
 
 ---
 
@@ -14,7 +14,7 @@
 ---
 ### Python Requirements
 
-- requirements.txt (requirements.txt)
+- All requirements can be installed with the requirements.txt file
 
 ---
 
@@ -32,13 +32,17 @@ python3 manage.py runserver
 ```
 
 Django web application available at http://localhost:8000
+<\br>
 The data center with PAPILLON installed must be running for the dashboard to communicate via it's IP address 
 
 ---
 
 ## The Dashboard
+--- Home Page
 ![](/screenshots/home.png)
+--- Tags Page
 ![](/screenshots/tag.png)
+--- Analysis Page
 ![](/screenshots/analysis.png)
 
 
