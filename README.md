@@ -55,6 +55,7 @@ python3 manage.py runserver
 Django web application available at http://localhost:8000
 
 The data center with PAPILLON installed must also be running and available for the dashboard to communicate via it's IP address 
+
 ---
 
 ## Dashboard Screenshots
