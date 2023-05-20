@@ -1,0 +1,144 @@
+{% include 'dashboard/home.html'%}
+
+{% block content %}
+
+<div class="tags">
+  
+  <div class="table-container">
+    <p>Hosts should be assigned a tag based on it's flexibility:</p>
+
+      <table style="width:100%" class="tags-table">
+        <thead>
+          <th colspan="10">All Available Hosts</th>
+        </thead>
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Host</th>
+            <th>Floor Name</th>
+            <th>Rack Name</th>
+            <th>Host Type</th>
+            <th>Energy Cost (€/kWh)</th>
+            <th>Carbon Conversion (KgCO2/kWh)</th>
+            <th>CPU Usage (%)</th>
+            <th>Flexible</th>
+            <th>Change flexibility</th>
+          </tr>
+          </thead>
+          {% for floor in floors %}
+              {% for rack in racks %}
+                  {% for host in hosts %}
+          <tbody>
+            <td>{{ host.hostid }}</td>
+            <td>{{ host.hostname }}</td>
+            <td>{{ floor.floorname }}</td>
+            <td>{{ rack.rackname }}</td>
+            <td>{{ host.hostType }}</td>
+            <td>{{ host.cost_energy|floatformat:2}}</td>
+            <td>{{ host.carbon_footprint|floatformat:2}}</td>
+            <td>{{ host.cpu_usage|floatformat }}%</td>
+
+            {% if host.flexible == False %}
+            <td style="background:rgba(255, 0, 0, 0.49);">Not Flexible</td>
+            {%else%}
+            <td style="background:rgba(0, 128, 0, 0.514);">Flexible</td>
+            {%endif%}
+
+            <td>
+              <a class="a2">
+                <form method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="hostid" value="{{ host.hostid }}" />
+                  <input type="hidden" name="floorid" value="{{ floor.floorid }}" />
+                  <input type="hidden" name="rackid" value="{{ rack.rackid }}" />
+                  <button type="submit" name="change-flexible" id="change-flexible" >Change</button>
+                </form>
+              </a>
+            </td>
+          </tr>
+          </tbody>
+                  {%endfor%}
+              {%endfor%}
+          {% endfor %}
+        </table>
+
+        <br>
+
+        <p>Hosts that have been assigned a 'FLEXIBLE' tag can be compared. The table depicts the total kWh used, on both
+          the low and high tariff rates (which can be adjusted top corner of this page) as well as the difference between the two.
+        </p>
+        <table style="width:100%" class="tags-table">
+          <thead>
+            <th colspan="9">Tagged Flexible Hosts</th>
+          </thead>
+          <thead>
+            <th rowspan="2">ID</th>
+            <th rowspan="2">Host</th>
+            <th colspan="3" style ="background:rgba(129, 124, 57, 0.486);">Cost (€/kWh)</th>
+            <th colspan="3"  style ="background:rgba(141, 134, 68, 0.599);">Carbon (KgCO2/kWh)</th>
+          </thead>
+            <thead>
+            <tr>
+              <th colspan="2"></th>
+              <th style ="background:rgba(129, 124, 57, 0.486);">Best Case</th>
+              <th style ="background:rgba(129, 124, 57, 0.486);">Worst Case</th>
+              <th style ="background:rgba(129, 124, 57, 0.486);">Potential Saving</th>
+              <th style ="background:rgba(141, 134, 68, 0.599);">Best Case</th>
+              <th style ="background:rgba(141, 134, 68, 0.599);">Worst Case</th>
+              <th style ="background:rgba(141, 134, 68, 0.599);">Potential Saving</th>
+            </tr>
+            </thead>
+            {% for floor in floors %}
+                {% for rack in racks %}
+                    {% for host in hosts %}
+                      {% if host.flexible == True %}
+                        <tbody>
+                          <td>{{ host.hostid }}</td>
+                          <td>{{ host.hostname }}</td>
+                          <td style ="background:rgba(9, 99, 117, 0.486);">{{ host.cost_energy_low|floatformat:3}}</td>
+                          <td style ="background:rgba(9, 99, 117, 0.486);">{{ host.cost_energy_high|floatformat:3}}</td>
+                          <td style ="background:rgba(9, 99, 117, 0.486);">{{ host.cost_saving|floatformat:3}}</td> 
+                          <td style ="background:rgba(40, 71, 155, 0.599);">{{ host.carbon_footprint_low|floatformat:3}}</td> 
+                          <td style ="background:rgba(40, 71, 155, 0.599);">{{ host.carbon_footprint_high|floatformat:3}}</td>  
+                          <td style ="background:rgba(40, 71, 155, 0.599);">{{ host.carbon_saving|floatformat:3}}</td>                       
+                        </tbody>
+                      {%endif%}  
+                    {%endfor%}
+                {%endfor%}
+            {% endfor %}
+          </table>
+  </div>
+
+    <div class="change-tariffs">
+      <div class="tariff-form-1">
+        <a class="a2">
+          <form method="POST" class="tariff-carbon"> 
+            {% csrf_token %}
+            Carbon Tariff (KgCO2/kWh): 
+            <input type="number" name="low" style="width: 95px;" required placeholder='Low: {{tariff.carbon_tariff_low|floatformat:4}}' step="0.001">
+            <input type="number" name="high" style="width: 95px;" required placeholder='High: {{tariff.carbon_tariff_high|floatformat:4}}' step="0.001">
+            <button type="submit" class="submit" name="tariff-carbon" id="tariff-carbon">Submit</button>
+          </form>
+        </a>
+      </div>
+    
+      <div class="tariff-form-2">
+        <a class="a2">
+          <form method="POST" class="tariff-cost"> 
+            {% csrf_token %}
+            Cost Tariff (€/kWh): 
+            <input type="number" name="low" style="width: 95px;" required placeholder='Low: {{tariff.cost_tariff_low|floatformat:3}}' step="0.01">
+            <input type="number" name="high" style="width: 95px;" required placeholder='High: {{tariff.cost_tariff_high|floatformat:3}}' step="0.01">
+            <button type="submit" class="submit"  name="tariff-cost"  id="tariff-cost">Submit</button>
+            
+          </form>
+        </a>
+      </div>
+      {% if error.non_field_errors %}<div class="tariff-error">{{error.non_field_errors}}</div>{% endif %}
+    </div>
+    
+{% endblock %}
+
+</div>
+
+
