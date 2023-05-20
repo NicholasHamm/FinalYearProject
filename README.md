@@ -55,12 +55,15 @@ The data center with PAPILLON installed must also be running and available for t
 ---
 
 ## Dashboard Screenshots
---- 
+
 Home Page
+
 ![](/screenshots/home.png)
---- 
+
 Tags Page
+
 ![](/screenshots/tag.png)
---- 
+
 Analysis Page
+
 ![](/screenshots/analysis.png)
