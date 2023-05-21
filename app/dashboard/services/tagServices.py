@@ -72,12 +72,12 @@ def get_host_power(master, sub_id, datacenter, floorid, rackid, hostid, startTim
 
         kWh_consumed = total_watts/1000
         carbon_footprint = kWh_consumed * carbon_conversion
-        carbon_footprint_low=kWh_consumed * carbon__low
-        carbon_footprint_high=kWh_consumed * carbon__high
+        carbon_footprint_low = kWh_consumed * carbon__low
+        carbon_footprint_high = kWh_consumed * carbon__high
         
         cost_energy = kWh_consumed * energy_cost * pue
-        cost_energy_low=kWh_consumed * cost__low * pue
-        cost_energy_high=kWh_consumed * cost__high * pue
+        cost_energy_low = kWh_consumed * cost__low * pue
+        cost_energy_high = kWh_consumed * cost__high * pue
 
         cost_saving = cost_energy_high - cost_energy_low
         carbon_saving = carbon_footprint_high - carbon_footprint_low

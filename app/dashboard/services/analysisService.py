@@ -164,16 +164,15 @@ def carbon_usage(table):
         temp = table.copy()
     except: return
 
-    carbon = services.get_carbon_conversion()
     high = services.get_high_carbon_tariff()
     low = services.get_low_carbon_tariff()
 
     for col in temp.columns:
         for row in temp.index:
             if row < HIGH_TARIFF_START or row > HIGH_TARIFF_END:
-                mult = low * carbon
+                mult = low
             else:
-                mult = high * carbon
+                mult = high
             temp.at[row, col] = temp.at[row, col] * mult
             
     return temp
@@ -183,17 +182,17 @@ def cost_estimate(table):
         temp = table.copy()
     except: return
 
-    cost = services.get_energy_cost()
+    pue = services.get_pue()
     high = services.get_high_cost_tariff()
     low = services.get_low_cost_tariff()
 
     for col in temp.columns:
         for row in temp.index:
             if row < HIGH_TARIFF_START or row > HIGH_TARIFF_END:
-                mult = low * cost
+                mult = low
             else:
-                mult = high * cost
-            temp.at[row, col] = temp.at[row, col] * mult
+                mult = high 
+            temp.at[row, col] = temp.at[row, col] * mult * pue
 
     return temp
 

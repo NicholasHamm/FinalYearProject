@@ -24,7 +24,7 @@
           <th>Datacenter</th>
           <th>ID</th>
           <th>PUE</th>
-          <th>Avg. Energy Tariff(€/kWh)</th>
+          <th>Avg. Cost Tariff (€/kWh)</th>
           <th>Avg. Carbon Tariff (KgCO2/kWh)</th>
           <th>Start Time</th>
           <th>End Time</th>
@@ -43,8 +43,8 @@
           <td>{{datacenter.datacenterid}}</td>
           <td>{{datacenter.sub_id}}</td>
           <td>{{datacenter.pue}}</td>
-          <td>{{datacenter.energy_cost}}</td>
-          <td>{{datacenter.carbon_conversion}}</td>
+          <td>{{datacenter.energy_cost |floatformat:3 }}</td>
+          <td>{{datacenter.carbon_conversion |floatformat:3 }}</td>
           <td>{{datacenter.startTime}}</td>
           <td>{{datacenter.endTime}}</td>
           <td>
