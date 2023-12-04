@@ -13,7 +13,7 @@ The aim of this project is to highlight the significant energy consumption of da
 ---
 ### Previous Work
 
-Sengments of code have been adapted from *Daniel Houlihan's* FYP which also utilises the Papillon system.
+Segments of code have been adapted from *Daniel Houlihan's* FYP which also utilises the Papillon system.
 - **Source**: https://csgitlab.ucd.ie/danielhoulihan/fyp_datacenter_management 
 
 ---
